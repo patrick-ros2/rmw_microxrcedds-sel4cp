@@ -232,7 +232,7 @@ set(SRCS
   $<$<BOOL:${RMW_UROS_ERROR_HANDLING}>:src/rmw_microros/error_handling.c>
 )
 
-add_library(${PROJECT_NAME}
+add_library(${PROJECT_NAME} STATIC
   ${SRCS})
 
 if(RMW_UXRCE_GRAPH)
