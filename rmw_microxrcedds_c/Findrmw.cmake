@@ -1,6 +1,6 @@
 
 include_directories(
-        /usr/local/include/rmw
+        ~/ros2/include/rmw
 )
 
 macro(configure_rmw_library library_target)

@@ -1,6 +1,7 @@
 SHELL = /bin/zsh
 PWD_DIR = "$(shell basename $$(pwd))"
 BUILD_DIR = build
+INSTALL_DIR = ~/ros2
 
 # ==================================
 # Pushes the current directory to remote host.
@@ -43,6 +44,8 @@ remote: push-remote
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(INSTALL_DIR)/include/rmw_microros
+	rm -rf $(INSTALL_DIR)/lib/librmw_microxrcedds.a
 
 # ==================================
 # Build
@@ -55,24 +58,7 @@ build:
 		-DBUILD_TESTING=0 \
 		-DCMAKE_C_COMPILER_WORKS=1 \
 		-DCMAKE_CXX_COMPILER_WORKS=1 \
+		-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
 		-DCMAKE_MODULE_PATH=./
 	cd $(BUILD_DIR) && $(MAKE) -j $(NUM_PROCS)
-	cd $(BUILD_DIR) && sudo $(MAKE) install
-
-#Install the project...
-#-- Install configuration: ""
-#-- Up-to-date: /usr/local/include
-#-- Installing: /usr/local/include/rmw_microros
-#-- Installing: /usr/local/include/rmw_microros/custom_transport.h
-#-- Installing: /usr/local/include/rmw_microros/time_sync.h
-#-- Installing: /usr/local/include/rmw_microros/init_options.h
-#-- Installing: /usr/local/include/rmw_microros/rmw_microros.h
-#-- Installing: /usr/local/include/rmw_microros/timing.h
-#-- Installing: /usr/local/include/rmw_microros/continous_serialization.h
-#-- Installing: /usr/local/include/rmw_microros/discovery.h
-#-- Installing: /usr/local/include/rmw_microros/error_handling.h
-#-- Installing: /usr/local/include/rmw_microros/ping.h
-#-- Installing: /usr/local/include/rmw_microxrcedds_c
-#-- Installing: /usr/local/include/rmw_microxrcedds_c/rmw_c_macros.h
-#-- Installing: /usr/local/include/rmw_microxrcedds_c/config.h
-#-- Installing: /usr/local/lib/librmw_microxrcedds.a
+	cd $(BUILD_DIR) && $(MAKE) install
